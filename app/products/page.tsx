@@ -6,6 +6,8 @@ import { ProductCard } from '@/components/product-card';
 import { Product } from '@/types';
 import { Search, SlidersHorizontal } from 'lucide-react';
 
+export const dynamic = 'force-dynamic';
+
 export default function ProductsPage() {
   const searchParams = useSearchParams();
   const router = useRouter();

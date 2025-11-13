@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Search, Package, Truck, CheckCircle, XCircle } from 'lucide-react';
 
+export const dynamic = 'force-dynamic';
+
 const statusIcons = {
   pending: Package,
   processing: Package,

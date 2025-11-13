@@ -3,6 +3,8 @@ import { ProductCard } from '@/components/product-card';
 import { Product } from '@/types';
 import { ArrowRight } from 'lucide-react';
 
+export const dynamic = 'force-dynamic';
+
 async function getFeaturedProducts(): Promise<Product[]> {
   try {
     const res = await fetch(
