@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { CheckCircle, Package, ArrowRight } from 'lucide-react';
@@ -11,15 +11,9 @@ export default function CheckoutSuccessPage() {
   const orderId = searchParams.get('orderId');
   const [orderDetails, setOrderDetails] = useState<any>(null);
 
-  useEffect(() => {
-    if (orderId) {
-      fetchOrderDetails();
-    } else {
-      router.push('/');
-    }
-  }, [orderId]);
+  const fetchOrderDetails = useCallback(async () => {
+    if (!orderId) return;
 
-  const fetchOrderDetails = async () => {
     try {
       const res = await fetch(`/api/orders/${orderId}`);
       if (res.ok) {
@@ -29,7 +23,15 @@ export default function CheckoutSuccessPage() {
     } catch (error) {
       console.error('Error fetching order details:', error);
     }
-  };
+  }, [orderId]);
+
+  useEffect(() => {
+    if (orderId) {
+      fetchOrderDetails();
+    } else {
+      router.push('/');
+    }
+  }, [orderId, fetchOrderDetails, router]);
 
   if (!orderDetails) {
     return (
@@ -113,9 +115,9 @@ export default function CheckoutSuccessPage() {
           <div className="bg-muted/50 p-4 rounded-md flex items-start space-x-3">
             <Package className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
             <div className="text-sm">
-              <p className="font-semibold mb-1">What's next?</p>
+              <p className="font-semibold mb-1">What&apos;s next?</p>
               <p className="text-muted-foreground">
-                We've sent a confirmation email to {orderDetails.user_email}. You can track your
+                We&apos;ve sent a confirmation email to {orderDetails.user_email}. You can track your
                 order status using the order number above.
               </p>
             </div>

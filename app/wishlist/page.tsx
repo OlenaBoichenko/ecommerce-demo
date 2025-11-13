@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
 import { useStore } from '@/lib/store';
 import { ProductCard } from '@/components/product-card';
@@ -12,15 +12,7 @@ export default function WishlistPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (wishlist.length > 0) {
-      fetchWishlistProducts();
-    } else {
-      setLoading(false);
-    }
-  }, [wishlist]);
-
-  const fetchWishlistProducts = async () => {
+  const fetchWishlistProducts = useCallback(async () => {
     setLoading(true);
     try {
       const productPromises = wishlist.map((item) =>
@@ -34,7 +26,15 @@ export default function WishlistPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [wishlist]);
+
+  useEffect(() => {
+    if (wishlist.length > 0) {
+      fetchWishlistProducts();
+    } else {
+      setLoading(false);
+    }
+  }, [wishlist, fetchWishlistProducts]);
 
   if (loading) {
     return (
