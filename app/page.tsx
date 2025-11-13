@@ -2,13 +2,15 @@ import Link from 'next/link';
 import { ProductCard } from '@/components/product-card';
 import { Product } from '@/types';
 import { ArrowRight } from 'lucide-react';
+import { getBaseUrl } from '@/lib/api-url';
 
 export const dynamic = 'force-dynamic';
 
 async function getFeaturedProducts(): Promise<Product[]> {
   try {
+    const baseUrl = getBaseUrl();
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/products?featured=true`,
+      `${baseUrl}/api/products?featured=true`,
       {
         cache: 'no-store',
       }
